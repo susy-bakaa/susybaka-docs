@@ -23,7 +23,7 @@ jobs:
     - name: Build ffxiv-raid-sim Docs
       run: |
         cd ffxiv-raid-sim
-        mkdocs build -f mkdocs.yml --site-dir raidsim
+        mkdocs build -f mkdocs.yml --site-dir ../raidsim
 
     - name: Prepare Deploy Directory
       run: |
