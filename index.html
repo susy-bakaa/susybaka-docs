@@ -4,21 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>susybaka Docs</title>
+  <link rel="icon" type="image/x-icon" href="/raidsim/logo.ico" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
+      margin: 0;
+      padding: 0;
       font-family: system-ui, sans-serif;
       background: #1e1e1e;
       color: #fff;
-      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .container {
       padding: 2rem;
     }
     h1 {
       font-size: 2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     ul {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
     li {
       margin: 0.75rem 0;
@@ -26,6 +39,8 @@
     a {
       color: #61dafb;
       text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
     }
     a:hover {
       text-decoration: underline;
@@ -38,13 +53,14 @@
   </style>
 </head>
 <body>
-  <h1>susybaka Documentation Center</h1>
-  <ul>
-    <li><a href="/raidsim/">FFXIV Raidsim Documentation</a></li>
-  </ul>
-
-  <div class="note">
-    This is a manually curated index of all available documentations.
+  <div class="container">
+    <h1>susybaka Documentation</h1>
+    <ul>
+      <li><a href="/raidsim/">FFXIV Raidsim Documentation</a></li>
+    </ul>
+    <div class="note">
+      This is a manually curated index of all the available documentations.
+    </div>
   </div>
 </body>
 </html>
