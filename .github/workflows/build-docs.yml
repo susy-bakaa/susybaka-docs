@@ -13,15 +13,16 @@ jobs:
     - name: Checkout all-docs
       uses: actions/checkout@v3
 
-    - name: Clone ffxiv-raid-sim Docs
+    - name: Clone ffxiv-raid-sim Repo
       run: |
         git clone --depth=1 https://github.com/susy-bakaa/ffxiv-raid-sim.git
+
+    - name: Install MkDocs Material
+      run: pip install mkdocs-material
+
+    - name: Build ffxiv-raid-sim Docs
+      run: |
         cd ffxiv-raid-sim/docs
-
-        # Install MkDocs
-        pip install mkdocs-material
-
-        # Build the site
         mkdocs build --site-dir ../../../raidsim
 
     - name: Prepare Deploy Directory
