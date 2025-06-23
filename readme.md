@@ -16,4 +16,4 @@ Each project maintains its own documentation source (usually in a `/docs` folder
 
 ## Contributing
 
-Want to add a new project to the docs hub? Submit a pull request or open an issue with your repository link.
+Want to add an edit to any of the docs? Submit a pull request or open an issue with your request.
