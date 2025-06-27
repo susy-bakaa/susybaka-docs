@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#architecture" class="md-skip">
+        <a href="#project-architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -262,6 +262,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -273,6 +286,172 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#global-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#singleton-managers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Singleton Managers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#globalvariables" class="md-nav__link">
+    <span class="md-ellipsis">
+      GlobalVariables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#globaldata" class="md-nav__link">
+    <span class="md-ellipsis">
+      GlobalData
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scene-lifecycle-and-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scene Lifecycle and Flow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fight-timeline-scenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fight Timeline Scenes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fight Timeline Scenes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scene-level-singletons" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scene-Level Singletons
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timeline-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timeline Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#characters-and-enemies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Characters and Enemies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collision
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mechanics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Nodes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -656,8 +835,108 @@
 
 
 
-<h1 id="architecture">Architecture</h1>
-<p><em>This section is still underconstruction.</em></p>
+<h1 id="project-architecture">Project Architecture</h1>
+<p>This page explains the core structure of the <strong>FFXIV Raidsim</strong> project. The architecture is built around modular, self-contained scenes, globally shared managers and data, and a consistent layout that allows for simulation of various FFXIV mechanics in a easy and reusable way.</p>
+<hr />
+<h2 id="global-architecture">Global Architecture</h2>
+<p>The project relies on a few foundational components that exist across all scenes:</p>
+<h3 id="singleton-managers">Singleton Managers</h3>
+<p>Several systems in the project are managed via singleton objects (MonoBehaviours marked as DontDestroyOnLoad) that are instantiated in a temporary startup scene. These handle general responsibilities such as:
+- Loading scenes
+- Managing game states
+- Global input handling
+- Audio</p>
+<h3 id="globalvariables">GlobalVariables</h3>
+<p>A static class used to store global values and configuration variables that are accessed across multiple systems. This includes:
+- Game version info
+- File system paths (e.g., to config folders or asset bundles)
+- Other miscellaneous info</p>
+<h3 id="globaldata">GlobalData</h3>
+<p>A static container of shared data structures used throughout the progarm. These include:
+- <code>Damage</code> struct – for encapsulating FFXIV-like damage instances
+- <code>ActionInfo</code> struct – for simple way to pass actions with their source/target characters included
+- <code>Flag</code> class – a boolean with multi-source support that can dynamically resolve its final value based on contributors
+- Other important miscellaneous data structures and variables</p>
+<hr />
+<h2 id="scene-lifecycle-and-flow">Scene Lifecycle and Flow</h2>
+<p>The application starts in a lightweight <strong>bootstrap scene</strong>. This scene initializes the global singleton managers and then immediately loads the <strong>Main Menu scene</strong>.</p>
+<p>From the <strong>Main Menu</strong>, the user can:
+- Enter the first timeline scene, the demo
+- Then choose and load a fight timeline scene of their choice from a dropdown menu</p>
+<p>Each fight timeline scene is entirely self-contained, with its own assets and logic. These scenes simulate specific mechanics and encounters.</p>
+<hr />
+<h2 id="fight-timeline-scenes">Fight Timeline Scenes</h2>
+<p>Every timeline scene is structured the same way for consistency and modularity. Some of the key structure elements include:</p>
+<h3 id="scene-level-singletons">Scene-Level Singletons</h3>
+<ul>
+<li><strong>UserInput</strong> – A prefab instance per scene that manages user inputs; values can be overridden per scene.</li>
+<li><strong>FightTimeline</strong> – A static singleton GameObject that contains the timeline controller. It dictates the main flow of the fight, controls boss behavior, stores randomized event results for later use, and times the execution of major boss actions and mechanics.</li>
+</ul>
+<h3 id="timeline-hierarchy">Timeline Hierarchy</h3>
+<ul>
+<li><strong>FightTimeline</strong> (GameObject)</li>
+<li>Contains attack sequencing and timing logic for the main boss</li>
+<li>Has a child GameObject that contains the <code>UserInput</code> script</li>
+<li>Hosts child GameObjects for organizing:<ul>
+<li><code>BotTimelines</code>: all player bot timelines</li>
+<li><code>FightMechanics</code>: all isolated more complex mechanic chains</li>
+</ul>
+</li>
+</ul>
+<h3 id="characters-and-enemies">Characters and Enemies</h3>
+<p>Two GameObjects exist at the scene root:
+- <code>Characters</code>: holds all player characters (real one and the bots)
+- <code>Enemies</code>: holds the main boss and any other adds or bosses involved in the fight</p>
+<p>Each character has:
+- A <code>Model</code> child: Contains the 3D model for the boss, loaded via <code>ModelHandler</code> from the scene's asset bundle
+- An <code>Actions</code> child: Contains all the weaponskills, spells, and abilities of the character
+- A <code>StatusEffects</code> child: Contains all the runtime-spawned instances of the effect prefabs
+- A <code>VisualEffects</code> child: Contains all VFX objects of the character, most using <code>CharacterEffect</code> components
+- A <code>Nameplate</code> prefab: Contains basic setup for all character nameplates
+- A <code>Pivot</code> child: Empty transform that is used for tethers and other mechanics that need to visually "attach" to the player
+- A <code>TargetNode</code> prefab: Contains the component for targeting of the character, has values like hitbox size</p>
+<p>Most of these objects (such as actions and status effects) are based on prefabs that get instantiated and perform their behavior and visuals but their actual information and configuration is defined via ScriptableObject based data assets:
+- <strong><code>ActionData</code></strong>: Defines the properties and behavior of weaponskills, spells, and abilities.
+- <strong><code>StatusEffectData</code></strong>: Describes buffs, debuffs, and other effects applied to characters.</p>
+<p>These ScriptableObjects make it easy to reuse, modify, and extend content without altering the underlying main prefabs.</p>
+<h3 id="user-interface">User Interface</h3>
+<p>The UI is stored and handled under a <code>UserInterface</code> GameObject, which has the <code>Canvas</code> component.</p>
+<p>The <code>Canvas</code> contains the following elements but is not limited to them:
+- A <code>PartyList</code>child: Stores all UI elements for all of the player characters (bots included)
+- A <code>EnemyList</code>child: Stores all enemies present in the timeline as list, works as the enemies' "party list"
+- A <code>Hotbar</code> child: Stores all of the Actions available to the player and displays them
+- A <code>SettingsMenu</code> prefab: Stores all of the global simulator settings, same menu as available in the main menu</p>
+<h3 id="environment">Environment</h3>
+<p>The visual environment for each timeline is stored under an <code>Environment</code> GameObject.
+This object contains some of the following as it's children:
+- Arena model (placeholder by default, runtime arena model is loaded via <code>EnvironmentHandler</code>)
+- All lights
+- All global particles
+- Any death wall or out of bounds triggers</p>
+<h3 id="collision">Collision</h3>
+<p>The physical environment for each timeline is stored under a <code>Collision</code> GameObject.</p>
+<p>This GameObject usually has one or two children that have the static colliders for the arena.</p>
+<h3 id="mechanics">Mechanics</h3>
+<p>Most dynamic prefabs are spawned at runtime under the <code>Mechanics</code> GameObject.</p>
+<p>This GameObject usually contains any of the following children:
+- AOEs
+- Tethers
+- Towers
+- Other mechanics and effects</p>
+<h3 id="ai-nodes">AI Nodes</h3>
+<p>The <code>AINodes</code> GameObject stores navigation transforms and reference points for the bots, bosses and mechanics:</p>
+<p>Some of the contained objects include:
+- Waymarks
+- Bot Nodes
+- Bot Node Groups
+- Mechanic Nodes
+- Other miscellaneous objects</p>
+<hr />
+<p>This structure ensures fully modular, easily expandable, and repeatable configuration for all fight timelines and mechanics. Most of the complexity is encapsulated within scene-specific prefabs or GameObjects and runtime data-driven systems, allowing for easier content creation and maintenance.</p>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="../creating-content/adding-scriptable-objects/">Creating Content</a></li>
+</ul>
 
 
 
