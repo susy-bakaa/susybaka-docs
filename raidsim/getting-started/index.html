@@ -778,18 +778,22 @@
 <li>Edit the <code>gdrive_default.txt</code> inside the <code>.gdrive</code> folder with your system-specific values, then save it as <code>gdrive_config.txt</code>.</li>
 <li>Run <code>gdrive_util.bat</code> from the root of the repository and follow the command prompt instructions.</li>
 </ol>
-<p>This is an explanation of what each line inside the config file has to include:
-1. Disk your repository is on
-2. Path to your local repository (In a format the windows cd command can read)
-3. Name of the archive used with Google Drive
-4. File ID of your existing archive on Google Drive (Must be shared to everyone with link)
-5. Folder ID of the folder where your archive will sit in (Must be shared to everyone with link)
-6. File used for ignored folders and file types (By default <code>.gdriveignore</code>)</p>
-<p>This tool just allows you to automatically do the following:
-- Create archived backups of all binary and large files.
-- Upload backups to Google Drive.
-- Maintain consistency in archive structure.
-- Avoid committing large binaries directly to GitHub.</p>
+<p>This is an explanation of what each line inside the config file has to include:</p>
+<ol>
+<li>Disk your repository is on</li>
+<li>Path to your local repository (In a format the windows cd command can read)</li>
+<li>Name of the archive used with Google Drive</li>
+<li>File ID of your existing archive on Google Drive (Must be shared to everyone with link)</li>
+<li>Folder ID of the folder where your archive will sit in (Must be shared to everyone with link)</li>
+<li>File used for ignored folders and file types (By default <code>.gdriveignore</code>)</li>
+</ol>
+<p>This tool just allows you to automatically do the following:</p>
+<ul>
+<li>Create archived backups of all binary and large files.</li>
+<li>Upload backups to Google Drive.</li>
+<li>Maintain consistency in archive structure.</li>
+<li>Avoid committing large binaries directly to GitHub.</li>
+</ul>
 <p><strong>Note:</strong> If you don’t have write access to the original Drive archive, just use the manual download method described above. You can also create your own archive backup in Google Drive with gdrive if you want to. If you do any changes to assets that would need to be ported to the main branch of the official simulator let me know through discord (@no00ob).</p>
 <hr />
 <h2 id="building-the-project">Building the Project</h2>

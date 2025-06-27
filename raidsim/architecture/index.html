@@ -841,28 +841,36 @@
 <h2 id="global-architecture">Global Architecture</h2>
 <p>The project relies on a few foundational components that exist across all scenes:</p>
 <h3 id="singleton-managers">Singleton Managers</h3>
-<p>Several systems in the project are managed via singleton objects (MonoBehaviours marked as DontDestroyOnLoad) that are instantiated in a temporary startup scene. These handle general responsibilities such as:
-- Loading scenes
-- Managing game states
-- Global input handling
-- Audio</p>
+<p>Several systems in the project are managed via singleton objects (MonoBehaviours marked as DontDestroyOnLoad) that are instantiated in a temporary startup scene. These handle general responsibilities such as:</p>
+<ul>
+<li>Loading asset bundles linked to scenes</li>
+<li>Saving any configuration values to disk or memory</li>
+<li>Checking for program updates</li>
+<li>Automatically downloading updates from GitHub</li>
+</ul>
 <h3 id="globalvariables">GlobalVariables</h3>
-<p>A static class used to store global values and configuration variables that are accessed across multiple systems. This includes:
-- Game version info
-- File system paths (e.g., to config folders or asset bundles)
-- Other miscellaneous info</p>
+<p>A static class used to store global values and configuration variables that are accessed across multiple systems. This includes:</p>
+<ul>
+<li>Game version info</li>
+<li>File system paths (e.g., to config folders or asset bundles)</li>
+<li>Other miscellaneous info</li>
+</ul>
 <h3 id="globaldata">GlobalData</h3>
-<p>A static container of shared data structures used throughout the progarm. These include:
-- <code>Damage</code> struct – for encapsulating FFXIV-like damage instances
-- <code>ActionInfo</code> struct – for simple way to pass actions with their source/target characters included
-- <code>Flag</code> class – a boolean with multi-source support that can dynamically resolve its final value based on contributors
-- Other important miscellaneous data structures and variables</p>
+<p>A static container of shared data structures used throughout the progarm. These include:</p>
+<ul>
+<li><code>Damage</code> struct – for encapsulating FFXIV-like damage instances</li>
+<li><code>ActionInfo</code> struct – for simple way to pass actions with their source/target characters included</li>
+<li><code>Flag</code> class – a boolean with multi-source support that can dynamically resolve its final value based on contributors</li>
+<li>Other important miscellaneous data structures and variables</li>
+</ul>
 <hr />
 <h2 id="scene-lifecycle-and-flow">Scene Lifecycle and Flow</h2>
 <p>The application starts in a lightweight <strong>bootstrap scene</strong>. This scene initializes the global singleton managers and then immediately loads the <strong>Main Menu scene</strong>.</p>
-<p>From the <strong>Main Menu</strong>, the user can:
-- Enter the first timeline scene, the demo
-- Then choose and load a fight timeline scene of their choice from a dropdown menu</p>
+<p>From the <strong>Main Menu</strong>, the user can:</p>
+<ul>
+<li>Enter the first timeline scene, the demo</li>
+<li>Then choose and load a fight timeline scene of their choice from a dropdown menu</li>
+</ul>
 <p>Each fight timeline scene is entirely self-contained, with its own assets and logic. These scenes simulate specific mechanics and encounters.</p>
 <hr />
 <h2 id="fight-timeline-scenes">Fight Timeline Scenes</h2>
@@ -884,53 +892,67 @@
 </li>
 </ul>
 <h3 id="characters-and-enemies">Characters and Enemies</h3>
-<p>Two GameObjects exist at the scene root:
-- <code>Characters</code>: holds all player characters (real one and the bots)
-- <code>Enemies</code>: holds the main boss and any other adds or bosses involved in the fight</p>
-<p>Each character has:
-- A <code>Model</code> child: Contains the 3D model for the boss, loaded via <code>ModelHandler</code> from the scene's asset bundle
-- An <code>Actions</code> child: Contains all the weaponskills, spells, and abilities of the character
-- A <code>StatusEffects</code> child: Contains all the runtime-spawned instances of the effect prefabs
-- A <code>VisualEffects</code> child: Contains all VFX objects of the character, most using <code>CharacterEffect</code> components
-- A <code>Nameplate</code> prefab: Contains basic setup for all character nameplates
-- A <code>Pivot</code> child: Empty transform that is used for tethers and other mechanics that need to visually "attach" to the player
-- A <code>TargetNode</code> prefab: Contains the component for targeting of the character, has values like hitbox size</p>
-<p>Most of these objects (such as actions and status effects) are based on prefabs that get instantiated and perform their behavior and visuals but their actual information and configuration is defined via ScriptableObject based data assets:
-- <strong><code>ActionData</code></strong>: Defines the properties and behavior of weaponskills, spells, and abilities.
-- <strong><code>StatusEffectData</code></strong>: Describes buffs, debuffs, and other effects applied to characters.</p>
+<p>Two GameObjects exist at the scene root:</p>
+<ul>
+<li><code>Characters</code>: holds all player characters (real one and the bots)</li>
+<li><code>Enemies</code>: holds the main boss and any other adds or bosses involved in the fight</li>
+</ul>
+<p>Each character has:</p>
+<ul>
+<li>A <code>Model</code> child: Contains the 3D model for the boss, loaded via <code>ModelHandler</code> from the scene's asset bundle</li>
+<li>An <code>Actions</code> child: Contains all the weaponskills, spells, and abilities of the character</li>
+<li>A <code>StatusEffects</code> child: Contains all the runtime-spawned instances of the effect prefabs</li>
+<li>A <code>VisualEffects</code> child: Contains all VFX objects of the character, most using <code>CharacterEffect</code> components</li>
+<li>A <code>Nameplate</code> prefab: Contains basic setup for all character nameplates</li>
+<li>A <code>Pivot</code> child: Empty transform that is used for tethers and other mechanics that need to visually "attach" to the player</li>
+<li>A <code>TargetNode</code> prefab: Contains the component for targeting of the character, has values like hitbox size</li>
+</ul>
+<p>Most of these objects (such as actions and status effects) are based on prefabs that get instantiated and perform their behavior and visuals but their actual information and configuration is defined via ScriptableObject based data assets:</p>
+<ul>
+<li><strong><code>ActionData</code></strong>: Defines the properties and behavior of weaponskills, spells, and abilities.</li>
+<li><strong><code>StatusEffectData</code></strong>: Describes buffs, debuffs, and other effects applied to characters.</li>
+</ul>
 <p>These ScriptableObjects make it easy to reuse, modify, and extend content without altering the underlying main prefabs.</p>
 <h3 id="user-interface">User Interface</h3>
 <p>The UI is stored and handled under a <code>UserInterface</code> GameObject, which has the <code>Canvas</code> component.</p>
-<p>The <code>Canvas</code> contains the following elements but is not limited to them:
-- A <code>PartyList</code>child: Stores all UI elements for all of the player characters (bots included)
-- A <code>EnemyList</code>child: Stores all enemies present in the timeline as list, works as the enemies' "party list"
-- A <code>Hotbar</code> child: Stores all of the Actions available to the player and displays them
-- A <code>SettingsMenu</code> prefab: Stores all of the global simulator settings, same menu as available in the main menu</p>
+<p>The <code>Canvas</code> contains the following elements but is not limited to them:</p>
+<ul>
+<li>A <code>PartyList</code>child: Stores all UI elements for all of the player characters (bots included)</li>
+<li>A <code>EnemyList</code>child: Stores all enemies present in the timeline as list, works as the enemies' "party list"</li>
+<li>A <code>Hotbar</code> child: Stores all of the Actions available to the player and displays them</li>
+<li>A <code>SettingsMenu</code> prefab: Stores all of the global simulator settings, same menu as available in the main menu</li>
+</ul>
 <h3 id="environment">Environment</h3>
 <p>The visual environment for each timeline is stored under an <code>Environment</code> GameObject.
-This object contains some of the following as it's children:
-- Arena model (placeholder by default, runtime arena model is loaded via <code>EnvironmentHandler</code>)
-- All lights
-- All global particles
-- Any death wall or out of bounds triggers</p>
+This object contains some of the following as it's children:</p>
+<ul>
+<li>Arena model (placeholder by default, runtime arena model is loaded via <code>EnvironmentHandler</code>)</li>
+<li>All lights</li>
+<li>All global particles</li>
+<li>Any death wall or out of bounds triggers</li>
+</ul>
 <h3 id="collision">Collision</h3>
 <p>The physical environment for each timeline is stored under a <code>Collision</code> GameObject.</p>
 <p>This GameObject usually has one or two children that have the static colliders for the arena.</p>
 <h3 id="mechanics">Mechanics</h3>
 <p>Most dynamic prefabs are spawned at runtime under the <code>Mechanics</code> GameObject.</p>
-<p>This GameObject usually contains any of the following children:
-- AOEs
-- Tethers
-- Towers
-- Other mechanics and effects</p>
+<p>This GameObject usually contains any of the following children:</p>
+<ul>
+<li>AOEs</li>
+<li>Tethers</li>
+<li>Towers</li>
+<li>Other mechanics and effects</li>
+</ul>
 <h3 id="ai-nodes">AI Nodes</h3>
 <p>The <code>AINodes</code> GameObject stores navigation transforms and reference points for the bots, bosses and mechanics:</p>
-<p>Some of the contained objects include:
-- Waymarks
-- Bot Nodes
-- Bot Node Groups
-- Mechanic Nodes
-- Other miscellaneous objects</p>
+<p>Some of the contained objects include:</p>
+<ul>
+<li>Waymarks</li>
+<li>Bot Nodes</li>
+<li>Bot Node Groups</li>
+<li>Mechanic Nodes</li>
+<li>Other miscellaneous objects</li>
+</ul>
 <hr />
 <p>This structure ensures fully modular, easily expandable, and repeatable configuration for all fight timelines and mechanics. Most of the complexity is encapsulated within scene-specific prefabs or GameObjects and runtime data-driven systems, allowing for easier content creation and maintenance.</p>
 <h2 id="next-steps">Next Steps</h2>
