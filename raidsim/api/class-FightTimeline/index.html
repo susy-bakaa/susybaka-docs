@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#fighttimeline-class" class="md-skip">
+        <a href="#fighttimeline-component-overview" class="md-skip">
           Skip to content
         </a>
       
@@ -571,6 +571,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    FightTimeline Class
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -582,6 +595,130 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Responsibilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Responsibilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timeline-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timeline Control
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scene-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scene References
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Event Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomization-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Randomization System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arena-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arena State
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ui-and-playback-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      UI and Playback Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automation-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automation Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#editor-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Editor Utilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -656,8 +793,68 @@
 
 
 
-<h1 id="fighttimeline-class">FightTimeline Class</h1>
-<p><em>This section is still underconstruction.</em></p>
+<h1 id="fighttimeline-component-overview">FightTimeline Component Overview</h1>
+<p>The <code>FightTimeline</code> component is the central controller for each fight scene in the raidsim. It coordinates timeline execution, random mechanics, character behaviors, and bot actions. This document explains the core functionality and purpose of the main fields and methods exposed to developers.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p><code>FightTimeline</code> acts as the brain of a fight scene. It drives the timeline, schedules and executes events, and maintains shared references to the scene's characters, bots, mechanics, and UI. Most fight-specific logic is built around configuring the timeline.</p>
+<hr />
+<h2 id="key-responsibilities">Key Responsibilities</h2>
+<h3 id="timeline-control">Timeline Control</h3>
+<ul>
+<li><strong>StartTimeline()</strong>: Begins executing the configured <code>TimelineEvent</code> list, sequentially triggering fight events with delays.</li>
+<li><strong>ResetTimeline()</strong>: Resets the fight back to its initial state, including characters, nodes, bots, and effects.</li>
+<li><strong>playing / paused</strong>: Used to control and monitor whether the fight is actively running or halted.</li>
+</ul>
+<h3 id="scene-references">Scene References</h3>
+<ul>
+<li><strong>input / player / partyList / enemyList</strong>: Reference to core scene actors like the player, input manager, and party/enemy lists.</li>
+<li><strong>mechanicParent / charactersParent / enemiesParent</strong>: Containers for spawned mechanics and characters.</li>
+<li><strong>botNodeParent / botTimelineParent</strong>: Hold AI navigation and bot timeline objects.</li>
+</ul>
+<h3 id="event-execution">Event Execution</h3>
+<ul>
+<li><strong>TimelineEvent list</strong>: Configurable fight events that define what happens and when (e.g., boss attacks, target switching).</li>
+<li><strong>TimelineCharacterEvent</strong>: Sub-events per character such as triggering mechanics, performing actions, buffs/debuffs, or movement.</li>
+</ul>
+<h3 id="randomization-system">Randomization System</h3>
+<ul>
+<li><strong>RandomEventPool / RandomEventResult</strong>: Used to inject randomness into fight timelines. These allow certain actions or effects to vary each run.</li>
+<li><strong>randomEventResults</strong>: Tracks resolved random results so they can be reused consistently or changed between resets.</li>
+</ul>
+<h3 id="arena-state">Arena State</h3>
+<ul>
+<li><strong>arenaBounds / isCircle</strong>: Defines the playable area shape and size. Can be changed during the fight with <code>ChangeArena()</code>.</li>
+</ul>
+<h3 id="ui-and-playback-management">UI and Playback Management</h3>
+<ul>
+<li><strong>disableDuringPlayback[]</strong>: UI buttons that are automatically disabled when the fight starts and re-enabled when it ends.</li>
+<li><strong>onReset / onPlay / onPausedChanged</strong>: Events for UI or logic to hook into timeline state changes.</li>
+<li><strong>TogglePause() / ResetPauseState()</strong>: Manage pause state through label-based toggling (multiple systems can pause independently).</li>
+</ul>
+<hr />
+<h2 id="automation-features">Automation Features</h2>
+<ul>
+<li><strong>BotTimeline integration</strong>: Bot timelines are started in sync with the timeline if enabled.</li>
+<li><strong>UseAutomarker toggle</strong>: Tracks whether the current timeline should use automarkers or not.</li>
+<li><strong>Jon</strong>: A debug toggle (for special voice lines or features).</li>
+</ul>
+<hr />
+<h2 id="editor-utilities">Editor Utilities</h2>
+<ul>
+<li><strong>WipePartyButton()</strong>: Triggers a simulated full party wipe (used during debugging).</li>
+<li><strong>OnValidate() / Reset()</strong>: Auto-corrects values and links scene references when modified in the Unity Editor.</li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Use <code>FightTimeline</code> to:</p>
+<ul>
+<li>Build fight flow with precise event timings</li>
+<li>Configure random behavior or mechanic variants</li>
+<li>Reset and restart the timeline cleanly</li>
+<li>Integrate bots, mechanics, and scripted character actions</li>
+<li>Hook into timeline states for UI or auxiliary systems</li>
+</ul>
 
 
 
