@@ -30,6 +30,7 @@ jobs:
         mkdir -p public
         cp -r raidsim public/raidsim
         cp index.html public/index.html
+        cp robots.txt public/robots.txt
         echo "docs.susybaka.dev" > public/CNAME
 
     - name: Deploy to GitHub Pages
